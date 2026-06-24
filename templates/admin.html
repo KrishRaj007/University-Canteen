@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — Campus Canteen</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --saffron: #FF6B35; --deep: #e7e7eb; --card: #e7e7eb;
+    --card2: #e7e7eb; --gold: #F7C948; --mint: #4ECDC4;
+    --text: black; --muted: #8888AA; --border: rgba(255,255,255,0.07);
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--deep); color: var(--text); min-height: 100vh; }
+  nav {
+    background: rgba(26,26,46,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
+  .nav-brand span { color: var(--saffron); }
+  .admin-tag {
+    background: rgba(255,107,53,0.15); color: var(--saffron);
+    font-size: 12px; font-weight: 600; padding: 3px 10px;
+    border-radius: 20px; margin-left: 10px;
+  }
+  .nav-link {
+    color: var(--muted); font-size: 14px; text-decoration: none;
+    padding: 6px 12px; border-radius: 8px; transition: all 0.2s;
+  }
+  .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .main { max-width: 1300px; margin: 0 auto; padding: 32px 24px; }
+  /* TABS */
+  .tabs { display: flex; gap: 4px; margin-bottom: 28px; }
+  .tab {
+    padding: 10px 20px; border-radius: 10px; border: none;
+    background: var(--card); color: var(--muted);
+    font-family: 'Syne', sans-serif; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  .tab.active { background: var(--saffron); color: white; }
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 16px; margin-bottom: 32px; }
+  .stat-card {
+    background: var(--card); border-radius: 14px;
+    padding: 20px; border: 1px solid var(--border);
+  }
+  .stat-icon { font-size: 28px; margin-bottom: 10px; }
+  .stat-val {
+    font-family: 'Syne', sans-serif; font-size: 28px;
+    font-weight: 800; color: var(--gold);
+  }
+  .stat-label { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  /* ORDER MGMT */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .section-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; }
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-chip {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); font-size: 13px; cursor: pointer;
+    font-family: 'Inter', sans-serif; transition: all 0.2s;
+  }
+  .filter-chip.active { background: var(--saffron); border-color: var(--saffron); color: white; }
+  .orders-table { width: 100%; border-collapse: collapse; }
+  .orders-table th {
+    text-align: left; padding: 12px 16px; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--muted); background: var(--card2);
+    font-weight: 600;
+  }
+  .orders-table th:first-child { border-radius: 10px 0 0 10px; }
+  .orders-table th:last-child { border-radius: 0 10px 10px 0; }
+  .orders-table td {
+    padding: 14px 16px; font-size: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .orders-table tr:last-child td { border-bottom: none; }
+  .orders-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .status-select {
+    padding: 5px 10px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--card2);
+    color: var(--text); font-size: 13px; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .status-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+  }
+  .status-pending { background: rgba(247,201,72,0.15); color: var(--gold); }
+  .status-preparing { background: rgba(255,107,53,0.15); color: var(--saffron); }
+  .status-ready { background: rgba(78,205,196,0.15); color: var(--mint); }
+  .status-completed { background: rgba(100,200,100,0.15); color: #6dc96d; }
+  .status-cancelled { background: rgba(255,107,107,0.15); color: #FF6B6B; }
+  /* MENU MGMT */
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 16px; }
+  .menu-admin-card {
+    background: var(--card); border-radius: 14px;
+    border: 1px solid var(--border); padding: 18px;
+    position: relative;
+  }
+  .menu-admin-card.unavail { opacity: 0.55; }
+  .mcard-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .mcard-cat { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+  .mcard-price { color: var(--gold); font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .mcard-actions { display: flex; gap: 8px; }
+  .btn-sm {
+    padding: 6px 12px; border-radius: 8px; border: none;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    font-family: 'Inter', sans-serif; transition: opacity 0.2s;
+  }
+  .btn-toggle { background: rgba(78,205,196,0.15); color: var(--mint); }
+  .btn-del { background: rgba(255,107,107,0.15); color: #FF6B6B; }
+  .btn-sm:hover { opacity: 0.8; }
+  /* ADD ITEM FORM */
+  .add-form {
+    background: var(--card); border-radius: 16px;
+    border: 1px solid var(--border); padding: 24px;
+    margin-bottom: 28px;
+  }
+  .add-form h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; }
+  .form-field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
+  .form-field input, .form-field select {
+    width: 100%; padding: 10px 12px;
+    background: var(--deep); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-family: 'Inter', sans-serif;
+    font-size: 14px; outline: none;
+  }
+  .form-field input:focus { border-color: var(--saffron); }
+  .btn-add {
+    padding: 10px 20px; background: var(--saffron);
+    color: white; border: none; border-radius: 8px;
+    font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif;
+    white-space: nowrap; transition: opacity 0.2s;
+  }
+  .btn-add:hover { opacity: 0.9; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--card2); color: var(--text); padding: 12px 24px;
+    border-radius: 12px; font-size: 14px; z-index: 300; display: none;
+    border: 1px solid rgba(78,205,196,0.3);
+  }
+  .items-info {
+    font-size: 13px; color: var(--muted);
+    max-width: 300px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr 1fr; }
+    .orders-table { font-size: 12px; }
+    nav { padding: 0 16px; }
+    .main { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-brand">🍽️ Campus <span>Canteen</span> <span class="admin-tag">ADMIN</span></div>
+  <a href="/logout" class="nav-link">Sign Out</a>
+</nav>
+<div class="main">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+    <button class="tab" onclick="switchTab('orders')">📋 Orders</button>
+    <button class="tab" onclick="switchTab('menu')">🍽️ Menu</button>
+  </div>
+
+  <!-- DASHBOARD TAB -->
+  <div id="tab-dashboard">
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-val" id="s-total">—</div><div class="stat-label">Total Orders</div></div>
+      <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val" id="s-pending">—</div><div class="stat-label">Pending</div></div>
+      <div class="stat-card"><div class="stat-icon">👨‍🍳</div><div class="stat-val" id="s-preparing">—</div><div class="stat-label">Preparing</div></div>
+      <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" id="s-ready">—</div><div class="stat-label">Ready</div></div>
+      <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-val" id="s-revenue">—</div><div class="stat-label">Revenue</div></div>
+      <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" id="s-students">—</div><div class="stat-label">Students</div></div>
+    </div>
+    <div class="section-header">
+      <div class="section-title">Live Orders</div>
+    </div>
+    <div id="liveOrders"></div>
+  </div>
+
+  <!-- ORDERS TAB -->
+  <div id="tab-orders" style="display:none">
+    <div class="section-header">
+      <div class="section-title">All Orders</div>
+      <div class="filter-row" id="orderFilters">
+        <button class="filter-chip active" onclick="filterOrders('', this)">All</button>
+        <button class="filter-chip" onclick="filterOrders('pending', this)">Pending</button>
+        <button class="filter-chip" onclick="filterOrders('preparing', this)">Preparing</button>
+        <button class="filter-chip" onclick="filterOrders('ready', this)">Ready</button>
+        <button class="filter-chip" onclick="filterOrders('completed', this)">Completed</button>
+        <button class="filter-chip" onclick="filterOrders('cancelled', this)">Cancelled</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto;background:var(--card);border-radius:16px;border:1px solid var(--border)">
+      <table class="orders-table" id="ordersTable">
+        <thead><tr>
+          <th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Time</th><th>Status</th>
+        </tr></thead>
+        <tbody id="ordersBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MENU TAB -->
+  <div id="tab-menu" style="display:none">
+    <div class="add-form">
+      <h3>➕ Add New Item</h3>
+      <div class="form-row">
+        <div class="form-field"><label>Name</label><input type="text" id="newName" placeholder="Item name"></div>
+        <div class="form-field"><label>Category</label>
+          <select id="newCat">
+            <option>Breakfast</option><option>Lunch</option><option>Snacks</option>
+            <option>Beverages</option><option>Desserts</option><option value="__new">New category...</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Price (₹)</label><input type="number" id="newPrice" placeholder="0"></div>
+        <button class="btn-add" onclick="addItem()">Add Item</button>
+      </div>
+      <div style="margin-top:12px">
+        <div class="form-field"><label>Description</label><input type="text" id="newDesc" placeholder="Short description"></div>
+      </div>
+    </div>
+    <div class="section-header">
+      <div class="section-title">Menu Items</div>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+let currentOrderFilter = '';
+
+function switchTab(tab) {
+  ['dashboard','orders','menu'].forEach(t => {
+    document.getElementById(`tab-${t}`).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach((el, i) => {
+    el.classList.toggle('active', ['dashboard','orders','menu'][i] === tab);
+  });
+  if (tab === 'orders') loadAllOrders();
+  if (tab === 'menu') loadMenuAdmin();
+  if (tab === 'dashboard') { loadStats(); loadLiveOrders(); }
+}
+
+async function loadStats() {
+  const res = await fetch('/api/admin/stats');
+  const d = await res.json();
+  document.getElementById('s-total').textContent = d.total_orders;
+  document.getElementById('s-pending').textContent = d.pending;
+  document.getElementById('s-preparing').textContent = d.preparing;
+  document.getElementById('s-ready').textContent = d.ready;
+  document.getElementById('s-revenue').textContent = `₹${d.revenue}`;
+  document.getElementById('s-students').textContent = d.students;
+}
+
+async function loadLiveOrders() {
+  const res = await fetch('/api/admin/orders?status=pending');
+  const orders = await res.json();
+  const prep = await (await fetch('/api/admin/orders?status=preparing')).json();
+  const all = [...orders, ...prep].slice(0, 10);
+  const el = document.getElementById('liveOrders');
+  if (!all.length) {
+    el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No active orders right now 🎉</div>';
+    return;
+  }
+  el.innerHTML = `<div style="overflow-x:auto;background:var(--card);border-radius:16px;border:1px solid var(--border)">
+    <table class="orders-table"><thead><tr>
+      <th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Time</th><th>Update Status</th>
+    </tr></thead><tbody>${all.map(o => liveRow(o)).join('')}</tbody></table></div>`;
+}
+
+function liveRow(o) {
+  return `<tr>
+    <td><strong>#${o.id}</strong></td>
+    <td>${o.user_name}</td>
+    <td class="items-info">${o.items.map(i => `${i.name}×${i.quantity}`).join(', ')}</td>
+    <td style="color:var(--gold);font-weight:700">₹${o.total}</td>
+    <td style="color:var(--muted)">${o.created_at}</td>
+    <td>
+      <select class="status-select" onchange="updateStatus(${o.id}, this.value)">
+        <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pending</option>
+        <option value="preparing" ${o.status==='preparing'?'selected':''}>👨‍🍳 Preparing</option>
+        <option value="ready" ${o.status==='ready'?'selected':''}>✅ Ready</option>
+        <option value="completed" ${o.status==='completed'?'selected':''}>🎉 Completed</option>
+        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelled</option>
+      </select>
+    </td>
+  </tr>`;
+}
+
+async function loadAllOrders() {
+  const res = await fetch(`/api/admin/orders${currentOrderFilter ? '?status=' + currentOrderFilter : ''}`);
+  const orders = await res.json();
+  const body = document.getElementById('ordersBody');
+  if (!orders.length) {
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">No orders found</td></tr>';
+    return;
+  }
+  body.innerHTML = orders.map(o => `<tr>
+    <td><strong>#${o.id}</strong></td>
+    <td>${o.user_name}</td>
+    <td class="items-info">${o.items.map(i => `${i.name}×${i.quantity}`).join(', ')}</td>
+    <td style="color:var(--gold);font-weight:700">₹${o.total}</td>
+    <td>${o.payment_method}</td>
+    <td style="color:var(--muted);font-size:12px">${o.created_at}</td>
+    <td>
+      <select class="status-select" onchange="updateStatus(${o.id}, this.value)">
+        <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pending</option>
+        <option value="preparing" ${o.status==='preparing'?'selected':''}>👨‍🍳 Preparing</option>
+        <option value="ready" ${o.status==='ready'?'selected':''}>✅ Ready</option>
+        <option value="completed" ${o.status==='completed'?'selected':''}>🎉 Completed</option>
+        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelled</option>
+      </select>
+    </td>
+  </tr>`).join('');
+}
+
+function filterOrders(status, btn) {
+  currentOrderFilter = status;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadAllOrders();
+}
+
+async function updateStatus(orderId, status) {
+  const res = await fetch(`/api/admin/orders/${orderId}/status`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({status})
+  });
+  const d = await res.json();
+  if (d.success) showToast(`✅ Order #${orderId} → ${status}`);
+  loadStats();
+}
+
+async function loadMenuAdmin() {
+  const res = await fetch('/api/menu');
+  const data = await res.json();
+  const grid = document.getElementById('menuGrid');
+  const items = data.flatMap(cat => cat.items.map(i => ({...i, cat: cat.category})));
+  grid.innerHTML = items.map(item => `
+    <div class="menu-admin-card ${!item.available ? 'unavail' : ''}" id="mcard-${item.id}">
+      <div class="mcard-name">${item.name}</div>
+      <div class="mcard-cat">${item.cat}</div>
+      <div class="mcard-price">₹${item.price}</div>
+      <div style="color:var(--muted);font-size:12px;margin-bottom:12px">${item.description}</div>
+      <div class="mcard-actions">
+        <button class="btn-sm btn-toggle" onclick="toggleAvail(${item.id}, ${!item.available})">
+          ${item.available ? '🚫 Disable' : '✅ Enable'}
+        </button>
+        <button class="btn-sm btn-del" onclick="deleteItem(${item.id})">🗑 Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+async function toggleAvail(id, avail) {
+  await fetch(`/api/admin/menu/${id}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({available: avail})
+  });
+  loadMenuAdmin();
+}
+
+async function deleteItem(id) {
+  if (!confirm('Delete this item?')) return;
+  await fetch(`/api/admin/menu/${id}`, {method: 'DELETE'});
+  showToast('🗑 Item deleted');
+  loadMenuAdmin();
+}
+
+async function addItem() {
+  const name = document.getElementById('newName').value;
+  const cat = document.getElementById('newCat').value;
+  const price = document.getElementById('newPrice').value;
+  const desc = document.getElementById('newDesc').value;
+  if (!name || !price) { showToast('⚠️ Name and price are required'); return; }
+  const res = await fetch('/api/admin/menu', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name, category: cat, price, description: desc})
+  });
+  const d = await res.json();
+  if (d.success) {
+    showToast('✅ Item added!');
+    document.getElementById('newName').value = '';
+    document.getElementById('newPrice').value = '';
+    document.getElementById('newDesc').value = '';
+    loadMenuAdmin();
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+// Init
+loadStats();
+loadLiveOrders();
+setInterval(() => { loadStats(); loadLiveOrders(); }, 20000);
+</script>
+</body>
+</html>
