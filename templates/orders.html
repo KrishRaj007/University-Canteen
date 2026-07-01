@@ -4,30 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Orders — Campus Canteen</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --saffron: #FF6B35; --deep: #0F0F1A; --card: #1A1A2E;
-    --card2: #16213E; --gold: #F7C948; --mint: #4ECDC4;
-    --text: #E8E8F0; --muted: #8888AA; --border: rgba(255,255,255,0.07);
+    --midnight: #000000;
+    --navy: #233d4d;
+    --soft-blue: #fe7f2d;
+    --pale-blue: #aecf0f;
+
+    --saffron: var(--soft-blue);
+    --deep: var(--midnight);
+    --card: var(--navy);
+    --card2: #2e5065;
+    --gold: var(--pale-blue);
+    --mint: var(--soft-blue);
+    --text: #f5f7fb;
+    --muted: #8ea0b0;
+    --border: rgba(174, 207, 15, 0.2);
   }
-  body { font-family: 'Inter', sans-serif; background: var(--deep); color: var(--text); min-height: 100vh; }
+  body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, var(--midnight) 0%, var(--navy) 100%); color: var(--text); min-height: 100vh; }
   nav {
-    background: rgba(26,26,46,0.95); backdrop-filter: blur(10px);
+    background: linear-gradient(90deg, var(--midnight) 0%, var(--navy) 100%); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px;
     display: flex; align-items: center; justify-content: space-between;
     position: sticky; top: 0; z-index: 100;
   }
-  .nav-brand { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; }
-  .nav-brand span { color: var(--saffron); }
+  .nav-brand { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; }
+  .nav-brand span { color: var(--soft-blue); }
   .nav-link {
     color: var(--muted); font-size: 14px; font-weight: 500;
     text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 0.2s;
   }
   .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
   .main { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
-  h1 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  h1 { font-family: 'Poppins', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 8px; }
   .subtitle { color: var(--muted); margin-bottom: 32px; }
   .order-card {
     background: var(--card); border-radius: 16px;
@@ -40,10 +51,10 @@
     display: flex; align-items: center; justify-content: space-between;
     cursor: pointer;
   }
-  .order-id { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+  .order-id { font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 700; }
   .order-meta { color: var(--muted); font-size: 13px; margin-top: 3px; }
   .order-right { text-align: right; }
-  .order-total { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--gold); }
+  .order-total { font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 700; color: var(--soft-blue); }
   .status-badge {
     display: inline-block; padding: 4px 12px; border-radius: 20px;
     font-size: 12px; font-weight: 600; margin-top: 4px;
@@ -75,7 +86,7 @@
   .prog-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
   .empty { text-align: center; padding: 80px 20px; color: var(--muted); }
   .empty .icon { font-size: 60px; margin-bottom: 16px; }
-  .empty a { color: var(--saffron); text-decoration: none; font-weight: 600; }
+  .empty a { color: var(--soft-blue); text-decoration: none; font-weight: 600; }
 </style>
 </head>
 <body>
