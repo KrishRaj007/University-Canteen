@@ -1,0 +1,137 @@
+[
+  {
+    "_id": "item_1",
+    "name": "Aloo Paratha",
+    "description": "Crispy stuffed paratha with butter",
+    "price": 40.0,
+    "category": "Breakfast",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385063"
+  },
+  {
+    "_id": "item_2",
+    "name": "Poha",
+    "description": "Light flattened rice with spices",
+    "price": 30.0,
+    "category": "Breakfast",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385067"
+  },
+  {
+    "_id": "item_3",
+    "name": "Idli Sambar",
+    "description": "Soft idlis with hot sambar & chutney",
+    "price": 35.0,
+    "category": "Breakfast",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385069"
+  },
+  {
+    "_id": "item_4",
+    "name": "Dal Rice",
+    "description": "Comfort dal with steamed rice",
+    "price": 60.0,
+    "category": "Lunch",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385070"
+  },
+  {
+    "_id": "item_5",
+    "name": "Rajma Chawal",
+    "description": "Kidney beans curry with rice",
+    "price": 70.0,
+    "category": "Lunch",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385072"
+  },
+  {
+    "_id": "item_6",
+    "name": "Veg Thali",
+    "description": "Full thali: rice, dal, sabzi, roti, salad",
+    "price": 90.0,
+    "category": "Lunch",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385073"
+  },
+  {
+    "_id": "item_7",
+    "name": "Chicken Biryani",
+    "description": "Aromatic basmati rice with tender chicken",
+    "price": 120.0,
+    "category": "Lunch",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385075"
+  },
+  {
+    "_id": "item_8",
+    "name": "Samosa (2 pcs)",
+    "description": "Crispy fried pastry with potato filling",
+    "price": 20.0,
+    "category": "Snacks",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385076"
+  },
+  {
+    "_id": "item_9",
+    "name": "Bread Pakora",
+    "description": "Golden fried bread with spiced filling",
+    "price": 25.0,
+    "category": "Snacks",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385078"
+  },
+  {
+    "_id": "item_10",
+    "name": "Maggi Noodles",
+    "description": "Classic masala noodles",
+    "price": 30.0,
+    "category": "Snacks",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385079"
+  },
+  {
+    "_id": "item_11",
+    "name": "Masala Chai",
+    "description": "Spiced milk tea",
+    "price": 15.0,
+    "category": "Beverages",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385080"
+  },
+  {
+    "_id": "item_12",
+    "name": "Cold Coffee",
+    "description": "Chilled blended coffee with ice cream",
+    "price": 45.0,
+    "category": "Beverages",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385082"
+  },
+  {
+    "_id": "item_13",
+    "name": "Lassi",
+    "description": "Sweet or salted yogurt drink",
+    "price": 35.0,
+    "category": "Beverages",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385083"
+  },
+  {
+    "_id": "item_14",
+    "name": "Gulab Jamun",
+    "description": "2 pieces in warm sugar syrup",
+    "price": 30.0,
+    "category": "Desserts",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385084"
+  },
+  {
+    "_id": "item_15",
+    "name": "Ice Cream",
+    "description": "Vanilla / Chocolate / Strawberry",
+    "price": 40.0,
+    "category": "Desserts",
+    "available": true,
+    "created_at": "2026-06-24 12:26:18.385086"
+  }
+]

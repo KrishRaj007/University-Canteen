@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "user_1",
+    "name": "Admin",
+    "email": "admin@canteen.com",
+    "password": "scrypt:32768:8:1$hmxl2xzWYaOtzipa$72ff731b5be57d1a6cb1c43b89116a91d05513fb80f6d5506effa9164de707200dff88f9d0f87949db37cd1e215ede07423bf7cbdeb564c88e96b55b6137024f",
+    "role": "admin",
+    "created_at": "2026-06-24 12:26:18.382434"
+  },
+  {
+    "_id": "user_2",
+    "name": "Rahul Sharma",
+    "email": "student@canteen.com",
+    "password": "scrypt:32768:8:1$eUc8WTgeXOMHzr8v$f9f609eb306117b19c0e1e5a67375dcb692684b7872b194505526e66ee3599a557f1b6195c19c1359393d9e087dc5135b12bb8651a41ba3b6d5f9d1810b32abe",
+    "role": "student",
+    "created_at": "2026-06-24 12:26:18.382440"
+  }
+]

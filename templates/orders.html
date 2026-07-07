@@ -91,7 +91,7 @@
 </head>
 <body>
 <nav>
-  <div class="nav-brand">🍽️ Campus <span>Canteen</span></div>
+  <div class="nav-brand">Campus <span>Canteen</span></div>
   <div style="display:flex;gap:8px">
     <a href="/menu" class="nav-link">← Menu</a>
     <a href="/logout" class="nav-link">Sign Out</a>
@@ -114,7 +114,6 @@ async function loadOrders() {
   const container = document.getElementById('ordersContainer');
   if (!orders.length) {
     container.innerHTML = `<div class="empty">
-      <div class="icon">📋</div>
       <p>No orders yet</p>
       <p style="margin-top:8px"><a href="/menu">Browse the menu</a> and place your first order!</p>
     </div>`;
@@ -124,6 +123,7 @@ async function loadOrders() {
 }
 
 function renderOrder(o) {
+  const orderId = jsArg(o.id);
   const step = STATUS_STEPS[o.status] ?? -1;
   const progressHtml = o.status !== 'cancelled' ? `
     <div class="prog-labels">${STATUS_LABELS.map(l => `<span>${l}</span>`).join('')}</div>
@@ -131,7 +131,7 @@ function renderOrder(o) {
       ${[0,1,2,3].map(i => `<div class="prog-step ${i < step ? 'done' : i === step ? 'active' : ''}"></div>`).join('')}
     </div>` : '';
   return `<div class="order-card">
-    <div class="order-header" onclick="toggle(${o.id})">
+    <div class="order-header" onclick="toggle(${orderId})">
       <div>
         <div class="order-id">Order #${o.id}</div>
         <div class="order-meta">${o.created_at} • ${o.payment_method.toUpperCase()}</div>
@@ -144,7 +144,7 @@ function renderOrder(o) {
     <div class="order-details" id="detail-${o.id}">
       ${progressHtml}
       ${o.items.map(i => `<div class="detail-item"><span>${i.name} × ${i.quantity}</span><span>₹${i.price * i.quantity}</span></div>`).join('')}
-      ${o.notes ? `<div style="margin-top:12px;font-size:13px;color:var(--muted)">📝 Note: ${o.notes}</div>` : ''}
+      ${o.notes ? `<div style="margin-top:12px;font-size:13px;color:var(--muted)">Note: ${o.notes}</div>` : ''}
     </div>
   </div>`;
 }
@@ -152,6 +152,10 @@ function renderOrder(o) {
 function toggle(id) {
   const el = document.getElementById(`detail-${id}`);
   el.classList.toggle('open');
+}
+
+function jsArg(value) {
+  return JSON.stringify(String(value)).replace(/"/g, '&quot;');
 }
 
 loadOrders();

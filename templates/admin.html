@@ -8,22 +8,22 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --midnight: #000000;
-    --navy: #233d4d;
-    --soft-blue: #fe7f2d;
-    --pale-blue: #aecf0f;
+    --midnight: #007979;
+    --navy: #24b1b1;
+    --soft-blue: #ffe0c5;
+    --pale-blue: #fff0e4;
 
     --saffron: var(--soft-blue);
     --deep: var(--midnight);
-    --card: var(--navy);
-    --card2: #2e5065;
-    --gold: var(--pale-blue);
-    --mint: var(--soft-blue);
-    --text: #f5f7fb;
-    --muted: #8ea0b0;
-    --border: rgba(174, 207, 15, 0.2);
+    --card: #fff0e4;
+    --card2: #ffe0c5;
+    --gold: #007979;
+    --mint: #24b1b1;
+    --text: #083f3f;
+    --muted: #4f7777;
+    --border: rgba(0, 121, 121, 0.18);
   }
-  body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, var(--midnight) 0%, var(--navy) 100%); color: var(--text); min-height: 100vh; }
+  body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, var(--pale-blue) 0%, var(--soft-blue) 100%); color: var(--text); min-height: 100vh; }
   nav {
     background: linear-gradient(90deg, var(--midnight) 0%, var(--navy) 100%); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px;
@@ -31,31 +31,31 @@
     position: sticky; top: 0; z-index: 100;
   }
   .nav-brand { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; }
-  .nav-brand span { color: var(--soft-blue); }
+  .nav-brand span { color: var(--pale-blue); }
   .admin-tag {
-    background: rgba(254, 127, 45, 0.16); color: var(--soft-blue);
+    background: rgba(255, 240, 228, 0.18); color: var(--pale-blue);
     font-size: 12px; font-weight: 600; padding: 3px 10px;
     border-radius: 20px; margin-left: 10px;
   }
   .nav-link {
-    color: var(--muted); font-size: 14px; text-decoration: none;
+    color: rgba(255, 240, 228, 0.82); font-size: 14px; text-decoration: none;
     padding: 6px 12px; border-radius: 8px; transition: all 0.2s;
   }
-  .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .nav-link:hover { color: #fff; background: rgba(255,255,255,0.12); }
   .main { max-width: 1300px; margin: 0 auto; padding: 32px 24px; }
   /* TABS */
   .tabs { display: flex; gap: 4px; margin-bottom: 28px; }
   .tab {
     padding: 10px 20px; border-radius: 10px; border: none;
-    background: var(--card); color: var(--muted);
+    background: rgba(255, 240, 228, 0.88); color: var(--muted);
     font-family: 'Poppins', sans-serif; font-size: 14px;
     font-weight: 600; cursor: pointer; transition: all 0.2s;
   }
-  .tab.active { background: linear-gradient(90deg, var(--soft-blue) 0%, var(--pale-blue) 100%); color: var(--midnight); }
+  .tab.active { background: linear-gradient(90deg, var(--midnight) 0%, var(--navy) 100%); color: var(--pale-blue); }
   /* STATS */
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 16px; margin-bottom: 32px; }
   .stat-card {
-    background: var(--card); border-radius: 14px;
+    background: rgba(255, 240, 228, 0.92); border-radius: 14px;
     padding: 20px; border: 1px solid var(--border);
   }
   .stat-icon { font-size: 28px; margin-bottom: 10px; }
@@ -77,12 +77,12 @@
     color: var(--muted); font-size: 13px; cursor: pointer;
     font-family: 'Poppins', sans-serif; transition: all 0.2s;
   }
-  .filter-chip.active { background: linear-gradient(90deg, var(--soft-blue) 0%, var(--pale-blue) 100%); border-color: var(--soft-blue); color: var(--midnight); }
+  .filter-chip.active { background: linear-gradient(90deg, var(--midnight) 0%, var(--navy) 100%); border-color: var(--midnight); color: var(--pale-blue); }
   .orders-table { width: 100%; border-collapse: collapse; }
   .orders-table th {
     text-align: left; padding: 12px 16px; font-size: 12px;
     text-transform: uppercase; letter-spacing: 0.5px;
-    color: var(--muted); background: var(--card2);
+    color: var(--midnight); background: var(--card2);
     font-weight: 600;
   }
   .orders-table th:first-child { border-radius: 10px 0 0 10px; }
@@ -92,10 +92,10 @@
     border-bottom: 1px solid var(--border);
   }
   .orders-table tr:last-child td { border-bottom: none; }
-  .orders-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .orders-table tr:hover td { background: rgba(36,177,177,0.08); }
   .status-select {
     padding: 5px 10px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--card2);
+    border: 1px solid var(--border); background: #fff;
     color: var(--text); font-size: 13px; cursor: pointer;
     font-family: 'Poppins', sans-serif;
   }
@@ -103,15 +103,15 @@
     display: inline-block; padding: 3px 10px; border-radius: 20px;
     font-size: 12px; font-weight: 600;
   }
-  .status-pending { background: rgba(247,201,72,0.15); color: var(--gold); }
-  .status-preparing { background: rgba(255,107,53,0.15); color: var(--saffron); }
-  .status-ready { background: rgba(78,205,196,0.15); color: var(--mint); }
-  .status-completed { background: rgba(100,200,100,0.15); color: #6dc96d; }
-  .status-cancelled { background: rgba(255,107,107,0.15); color: #FF6B6B; }
+  .status-pending { background: rgba(255,224,197,0.85); color: var(--midnight); }
+  .status-preparing { background: rgba(36,177,177,0.14); color: var(--midnight); }
+  .status-ready { background: rgba(0,121,121,0.12); color: var(--midnight); }
+  .status-completed { background: rgba(36,177,177,0.2); color: #007979; }
+  .status-cancelled { background: rgba(255,224,197,0.9); color: #9f3d3d; }
   /* MENU MGMT */
   .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 16px; }
   .menu-admin-card {
-    background: var(--card); border-radius: 14px;
+    background: rgba(255, 240, 228, 0.92); border-radius: 14px;
     border: 1px solid var(--border); padding: 18px;
     position: relative;
   }
@@ -125,12 +125,12 @@
     font-size: 12px; font-weight: 600; cursor: pointer;
     font-family: 'Poppins', sans-serif; transition: opacity 0.2s;
   }
-  .btn-toggle { background: rgba(78,205,196,0.15); color: var(--mint); }
-  .btn-del { background: rgba(255,107,107,0.15); color: #FF6B6B; }
+  .btn-toggle { background: rgba(36,177,177,0.16); color: var(--midnight); }
+  .btn-del { background: rgba(255,224,197,0.9); color: #9f3d3d; }
   .btn-sm:hover { opacity: 0.8; }
   /* ADD ITEM FORM */
   .add-form {
-    background: var(--card); border-radius: 16px;
+    background: rgba(255, 240, 228, 0.92); border-radius: 16px;
     border: 1px solid var(--border); padding: 24px;
     margin-bottom: 28px;
   }
@@ -139,23 +139,23 @@
   .form-field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
   .form-field input, .form-field select {
     width: 100%; padding: 10px 12px;
-    background: var(--deep); border: 1px solid var(--border);
+    background: #fff; border: 1px solid var(--border);
     border-radius: 8px; color: var(--text); font-family: 'Poppins', sans-serif;
     font-size: 14px; outline: none;
   }
-  .form-field input:focus { border-color: var(--saffron); }
+  .form-field input:focus, .form-field select:focus { border-color: var(--midnight); }
   .btn-add {
-    padding: 10px 20px; background: linear-gradient(90deg, var(--soft-blue) 0%, var(--pale-blue) 100%); color: var(--midnight);
-    color: white; border: none; border-radius: 8px;
+    padding: 10px 20px; background: linear-gradient(90deg, var(--midnight) 0%, var(--navy) 100%); color: var(--pale-blue);
+    border: none; border-radius: 8px;
     font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif;
     white-space: nowrap; transition: opacity 0.2s;
   }
   .btn-add:hover { opacity: 0.9; }
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-    background: var(--card2); color: var(--text); padding: 12px 24px;
+    background: var(--midnight); color: var(--pale-blue); padding: 12px 24px;
     border-radius: 12px; font-size: 14px; z-index: 300; display: none;
-    border: 1px solid rgba(78,205,196,0.3);
+    border: 1px solid rgba(255, 224, 197, 0.6);
   }
   .items-info {
     font-size: 13px; color: var(--muted);
@@ -172,25 +172,25 @@
 </head>
 <body>
 <nav>
-  <div class="nav-brand">🍽️ Campus <span>Canteen</span> <span class="admin-tag">ADMIN</span></div>
+  <div class="nav-brand">Campus <span>Canteen</span> <span class="admin-tag">ADMIN</span></div>
   <a href="/logout" class="nav-link">Sign Out</a>
 </nav>
 <div class="main">
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('dashboard')">📊 Dashboard</button>
-    <button class="tab" onclick="switchTab('orders')">📋 Orders</button>
-    <button class="tab" onclick="switchTab('menu')">🍽️ Menu</button>
+    <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
+    <button class="tab" onclick="switchTab('orders')">Orders</button>
+    <button class="tab" onclick="switchTab('menu')">Menu</button>
   </div>
 
   <!-- DASHBOARD TAB -->
   <div id="tab-dashboard">
     <div class="stats-grid" id="statsGrid">
-      <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-val" id="s-total">—</div><div class="stat-label">Total Orders</div></div>
-      <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val" id="s-pending">—</div><div class="stat-label">Pending</div></div>
-      <div class="stat-card"><div class="stat-icon">👨‍🍳</div><div class="stat-val" id="s-preparing">—</div><div class="stat-label">Preparing</div></div>
-      <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" id="s-ready">—</div><div class="stat-label">Ready</div></div>
-      <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-val" id="s-revenue">—</div><div class="stat-label">Revenue</div></div>
-      <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" id="s-students">—</div><div class="stat-label">Students</div></div>
+      <div class="stat-card"><div class="stat-val" id="s-total">—</div><div class="stat-label">Total Orders</div></div>
+      <div class="stat-card"><div class="stat-val" id="s-pending">—</div><div class="stat-label">Pending</div></div>
+      <div class="stat-card"><div class="stat-val" id="s-preparing">—</div><div class="stat-label">Preparing</div></div>
+      <div class="stat-card"><div class="stat-val" id="s-ready">—</div><div class="stat-label">Ready</div></div>
+      <div class="stat-card"><div class="stat-val" id="s-revenue">—</div><div class="stat-label">Revenue</div></div>
+      <div class="stat-card"><div class="stat-val" id="s-students">—</div><div class="stat-label">Students</div></div>
     </div>
     <div class="section-header">
       <div class="section-title">Live Orders</div>
@@ -224,7 +224,7 @@
   <!-- MENU TAB -->
   <div id="tab-menu" style="display:none">
     <div class="add-form">
-      <h3>➕ Add New Item</h3>
+      <h3>Add New Item</h3>
       <div class="form-row">
         <div class="form-field"><label>Name</label><input type="text" id="newName" placeholder="Item name"></div>
         <div class="form-field"><label>Category</label>
@@ -281,7 +281,7 @@ async function loadLiveOrders() {
   const all = [...orders, ...prep].slice(0, 10);
   const el = document.getElementById('liveOrders');
   if (!all.length) {
-    el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No active orders right now 🎉</div>';
+    el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">No active orders right now</div>';
     return;
   }
   el.innerHTML = `<div style="overflow-x:auto;background:var(--card);border-radius:16px;border:1px solid var(--border)">
@@ -298,12 +298,12 @@ function liveRow(o) {
     <td style="color:var(--gold);font-weight:700">₹${o.total}</td>
     <td style="color:var(--muted)">${o.created_at}</td>
     <td>
-      <select class="status-select" onchange="updateStatus(${o.id}, this.value)">
-        <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pending</option>
-        <option value="preparing" ${o.status==='preparing'?'selected':''}>👨‍🍳 Preparing</option>
-        <option value="ready" ${o.status==='ready'?'selected':''}>✅ Ready</option>
-        <option value="completed" ${o.status==='completed'?'selected':''}>🎉 Completed</option>
-        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelled</option>
+      <select class="status-select" onchange="updateStatus(${jsArg(o.id)}, this.value)">
+        <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+        <option value="preparing" ${o.status==='preparing'?'selected':''}>Preparing</option>
+        <option value="ready" ${o.status==='ready'?'selected':''}>Ready</option>
+        <option value="completed" ${o.status==='completed'?'selected':''}>Completed</option>
+        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
       </select>
     </td>
   </tr>`;
@@ -325,12 +325,12 @@ async function loadAllOrders() {
     <td>${o.payment_method}</td>
     <td style="color:var(--muted);font-size:12px">${o.created_at}</td>
     <td>
-      <select class="status-select" onchange="updateStatus(${o.id}, this.value)">
-        <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pending</option>
-        <option value="preparing" ${o.status==='preparing'?'selected':''}>👨‍🍳 Preparing</option>
-        <option value="ready" ${o.status==='ready'?'selected':''}>✅ Ready</option>
-        <option value="completed" ${o.status==='completed'?'selected':''}>🎉 Completed</option>
-        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>❌ Cancelled</option>
+      <select class="status-select" onchange="updateStatus(${jsArg(o.id)}, this.value)">
+        <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+        <option value="preparing" ${o.status==='preparing'?'selected':''}>Preparing</option>
+        <option value="ready" ${o.status==='ready'?'selected':''}>Ready</option>
+        <option value="completed" ${o.status==='completed'?'selected':''}>Completed</option>
+        <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
       </select>
     </td>
   </tr>`).join('');
@@ -350,7 +350,7 @@ async function updateStatus(orderId, status) {
     body: JSON.stringify({status})
   });
   const d = await res.json();
-  if (d.success) showToast(`✅ Order #${orderId} → ${status}`);
+  if (d.success) showToast(`Order #${orderId} changed to ${status}`);
   loadStats();
 }
 
@@ -366,10 +366,10 @@ async function loadMenuAdmin() {
       <div class="mcard-price">₹${item.price}</div>
       <div style="color:var(--muted);font-size:12px;margin-bottom:12px">${item.description}</div>
       <div class="mcard-actions">
-        <button class="btn-sm btn-toggle" onclick="toggleAvail(${item.id}, ${!item.available})">
-          ${item.available ? '🚫 Disable' : '✅ Enable'}
+        <button class="btn-sm btn-toggle" onclick="toggleAvail(${jsArg(item.id)}, ${!item.available})">
+          ${item.available ? 'Disable' : 'Enable'}
         </button>
-        <button class="btn-sm btn-del" onclick="deleteItem(${item.id})">🗑 Delete</button>
+        <button class="btn-sm btn-del" onclick="deleteItem(${jsArg(item.id)})">Delete</button>
       </div>
     </div>`).join('');
 }
@@ -386,7 +386,7 @@ async function toggleAvail(id, avail) {
 async function deleteItem(id) {
   if (!confirm('Delete this item?')) return;
   await fetch(`/api/admin/menu/${id}`, {method: 'DELETE'});
-  showToast('🗑 Item deleted');
+  showToast('Item deleted');
   loadMenuAdmin();
 }
 
@@ -395,7 +395,7 @@ async function addItem() {
   const cat = document.getElementById('newCat').value;
   const price = document.getElementById('newPrice').value;
   const desc = document.getElementById('newDesc').value;
-  if (!name || !price) { showToast('⚠️ Name and price are required'); return; }
+  if (!name || !price) { showToast('Name and price are required'); return; }
   const res = await fetch('/api/admin/menu', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -403,7 +403,7 @@ async function addItem() {
   });
   const d = await res.json();
   if (d.success) {
-    showToast('✅ Item added!');
+    showToast('Item added!');
     document.getElementById('newName').value = '';
     document.getElementById('newPrice').value = '';
     document.getElementById('newDesc').value = '';
@@ -416,6 +416,10 @@ function showToast(msg) {
   t.textContent = msg;
   t.style.display = 'block';
   setTimeout(() => t.style.display = 'none', 3000);
+}
+
+function jsArg(value) {
+  return JSON.stringify(String(value)).replace(/"/g, '&quot;');
 }
 
 // Init

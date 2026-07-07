@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, jsonify, request
 from flask_login import login_required, current_user
 from functools import wraps
-from app import db
-from models import Order, MenuItem, Category, User
+from extensions import mongo
+from mongo_helpers import id_filter
+from datetime import datetime
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -24,80 +25,87 @@ def dashboard():
 @login_required
 @admin_required
 def all_orders():
-    status = request.args.get('status', '')
-    query = Order.query.order_by(Order.created_at.desc())
-    if status:
-        query = query.filter_by(status=status)
     from routes.orders import serialize_order
-    return jsonify([serialize_order(o) for o in query.limit(100).all()])
+    status = request.args.get('status', '')
+    query  = {'status': status} if status else {}
+    orders = mongo.db.orders.find(query).sort('created_at', -1).limit(100)
+    return jsonify([serialize_order(o) for o in orders])
 
-@admin_bp.route('/api/admin/orders/<int:order_id>/status', methods=['PUT'])
+@admin_bp.route('/api/admin/orders/<order_id>/status', methods=['PUT'])
 @login_required
 @admin_required
 def update_status(order_id):
-    order = Order.query.get_or_404(order_id)
-    data = request.get_json()
-    valid = ['pending', 'preparing', 'ready', 'completed', 'cancelled']
-    new_status = data.get('status')
+    valid      = ['pending', 'preparing', 'ready', 'completed', 'cancelled']
+    new_status = request.get_json().get('status')
     if new_status not in valid:
         return jsonify({'success': False, 'message': 'Invalid status'}), 400
-    order.status = new_status
-    db.session.commit()
+    mongo.db.orders.update_one(
+        id_filter(order_id),
+        {'$set': {'status': new_status}}
+    )
     return jsonify({'success': True})
 
 @admin_bp.route('/api/admin/menu', methods=['POST'])
 @login_required
 @admin_required
 def add_item():
-    data = request.get_json()
-    cat = Category.query.filter_by(name=data['category']).first()
-    if not cat:
-        cat = Category(name=data['category'])
-        db.session.add(cat)
-        db.session.flush()
-    item = MenuItem(name=data['name'], description=data.get('description', ''),
-                    price=float(data['price']), category_id=cat.id, available=True)
-    db.session.add(item)
-    db.session.commit()
-    return jsonify({'success': True, 'id': item.id})
+    data   = request.get_json()
+    result = mongo.db.menu_items.insert_one({
+        'name':        data['name'],
+        'category':    data['category'],
+        'price':       float(data['price']),
+        'description': data.get('description', ''),
+        'available':   True,
+        'created_at':  datetime.utcnow()
+    })
+    return jsonify({'success': True, 'id': str(result.inserted_id)})
 
-@admin_bp.route('/api/admin/menu/<int:item_id>', methods=['PUT'])
+@admin_bp.route('/api/admin/menu/<item_id>', methods=['PUT'])
 @login_required
 @admin_required
 def update_item(item_id):
-    item = MenuItem.query.get_or_404(item_id)
-    data = request.get_json()
-    if 'name' in data: item.name = data['name']
-    if 'price' in data: item.price = float(data['price'])
-    if 'description' in data: item.description = data['description']
-    if 'available' in data: item.available = data['available']
-    db.session.commit()
+    data    = request.get_json()
+    updates = {}
+    if 'name'        in data: updates['name']        = data['name']
+    if 'price'       in data: updates['price']       = float(data['price'])
+    if 'description' in data: updates['description'] = data['description']
+    if 'available'   in data: updates['available']   = data['available']
+    mongo.db.menu_items.update_one(
+        id_filter(item_id),
+        {'$set': updates}
+    )
     return jsonify({'success': True})
 
-@admin_bp.route('/api/admin/menu/<int:item_id>', methods=['DELETE'])
+@admin_bp.route('/api/admin/menu/<item_id>', methods=['DELETE'])
 @login_required
 @admin_required
 def delete_item(item_id):
-    item = MenuItem.query.get_or_404(item_id)
-    db.session.delete(item)
-    db.session.commit()
+    mongo.db.menu_items.delete_one(id_filter(item_id))
     return jsonify({'success': True})
 
 @admin_bp.route('/api/admin/stats')
 @login_required
 @admin_required
 def stats():
-    from sqlalchemy import func
-    total_orders = Order.query.count()
-    pending = Order.query.filter_by(status='pending').count()
-    preparing = Order.query.filter_by(status='preparing').count()
-    ready = Order.query.filter_by(status='ready').count()
-    revenue = db.session.query(func.sum(Order.total)).filter(Order.status == 'completed').scalar() or 0
+    total   = mongo.db.orders.count_documents({})
+    pending = mongo.db.orders.count_documents({'status': 'pending'})
+    prep    = mongo.db.orders.count_documents({'status': 'preparing'})
+    ready   = mongo.db.orders.count_documents({'status': 'ready'})
+    students= mongo.db.users.count_documents({'role': 'student'})
+
+    # Sum revenue from completed orders
+    pipeline = [
+        {'$match':  {'status': 'completed'}},
+        {'$group':  {'_id': None, 'total': {'$sum': '$total'}}}
+    ]
+    rev_result = list(mongo.db.orders.aggregate(pipeline))
+    revenue    = rev_result[0]['total'] if rev_result else 0
+
     return jsonify({
-        'total_orders': total_orders,
-        'pending': pending,
-        'preparing': preparing,
-        'ready': ready,
-        'revenue': revenue,
-        'students': User.query.filter_by(role='student').count()
+        'total_orders': total,
+        'pending':      pending,
+        'preparing':    prep,
+        'ready':        ready,
+        'revenue':      revenue,
+        'students':     students
     })
