@@ -3,340 +3,426 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Campus Canteen - Sign In</title>
-<link href="https://fonts.googleapis.com/css2?family=Montenegrin+Gothic+One&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Campus Canteen - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --midnight: #007979;
-    --navy: #24b1b1;
-    --soft-blue: #ffe0c5;
-    --pale-blue: #fff0e4;
-    --card: rgba(255, 240, 228, 0.96);
-    --card2: #ffe0c5;
-    --text: #083f3f;
-    --muted: #4f7777;
-    --border: rgba(0, 121, 121, 0.18);
-    --error: #9f3d3d;
+    --teal: #007979;
+    --teal-light: #24b1b1;
+    --cream: #fff0e4;
+    --peach: #ffe0c5;
+    --ink: #083f3f;
+    --muted: #557878;
+    --line: rgba(0, 121, 121, 0.18);
+    --white: #fffaf6;
+    --danger: #b42318;
+    --danger-bg: #fff1f0;
+    --shadow: 0 24px 70px rgba(8, 63, 63, 0.18);
   }
   body {
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    color: var(--text);
+    color: var(--ink);
     background:
-      linear-gradient(135deg, rgba(255, 240, 228, 0.96) 0%, rgba(255, 224, 197, 0.92) 54%, rgba(36, 177, 177, 0.34) 100%),
-      linear-gradient(90deg, var(--midnight), var(--navy));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px 18px;
+      linear-gradient(135deg, rgba(255, 240, 228, 0.95), rgba(255, 224, 197, 0.82)),
+      url('/menu-items/Veg-Thali.webp') center/cover fixed;
   }
-  .auth-shell {
-    width: min(1040px, 100%);
-    min-height: 640px;
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 250, 246, 0.92), rgba(255, 250, 246, 0.72)),
+      repeating-linear-gradient(90deg, rgba(0, 121, 121, 0.06) 0 1px, transparent 1px 92px);
+    pointer-events: none;
+  }
+  .page {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
     display: grid;
-    grid-template-columns: 1.02fr 0.98fr;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 24px 70px rgba(0, 121, 121, 0.18);
+    grid-template-columns: minmax(0, 1.05fr) minmax(390px, 0.78fr);
   }
-  .brand-panel {
-    background: linear-gradient(160deg, var(--midnight) 0%, var(--navy) 100%);
-    color: var(--pale-blue);
-    padding: 42px;
+  .showcase {
+    padding: clamp(28px, 5vw, 64px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 36px;
   }
-  .brand-kicker {
+  .brand {
     display: inline-flex;
     align-items: center;
-    min-height: 34px;
-    padding: 7px 12px;
-    border-radius: 999px;
-    background: rgba(255, 240, 228, 0.14);
-    border: 1px solid rgba(255, 240, 228, 0.24);
-    color: rgba(255, 240, 228, 0.86);
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 22px;
+    gap: 12px;
+    color: var(--teal);
+    font-weight: 800;
+    font-size: 20px;
   }
   .brand-mark {
-    width: 58px;
-    height: 58px;
+    width: 46px;
+    height: 46px;
     border-radius: 12px;
-    background: var(--pale-blue);
-    color: var(--midnight);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Montenegrin Gothic One', 'Poppins', sans-serif;
-    font-size: 28px;
-    font-weight: 400;
-    margin-bottom: 20px;
-  }
-  .brand-panel h1 {
-    font-family: 'Montenegrin Gothic One', 'Poppins', sans-serif;
-    font-size: 48px;
-    line-height: 1.08;
-    font-weight: 400;
-    max-width: 360px;
-  }
-  .brand-panel p {
-    color: rgba(255, 240, 228, 0.78);
-    font-size: 16px;
-    line-height: 1.7;
-    margin-top: 18px;
-    max-width: 380px;
-  }
-  .food-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 30px;
+    place-items: center;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    color: var(--cream);
+    box-shadow: 0 12px 26px rgba(0, 121, 121, 0.24);
   }
-  .food-tile {
-    min-height: 132px;
-    border-radius: 12px;
+  .hero-copy {
+    max-width: 690px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(42px, 7vw, 84px);
+    line-height: 0.98;
+    font-weight: 800;
+    letter-spacing: 0;
+    color: var(--ink);
+  }
+  .hero-copy p {
+    max-width: 52ch;
+    margin-top: 22px;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  .food-strip {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr 0.85fr;
+    gap: 14px;
+    max-width: 760px;
+  }
+  .food-card {
+    min-height: 188px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid rgba(255, 240, 228, 0.22);
-    background: rgba(255, 240, 228, 0.08);
-    position: relative;
+    border: 1px solid rgba(0, 121, 121, 0.16);
+    background: var(--cream);
+    box-shadow: 0 14px 34px rgba(8, 63, 63, 0.13);
   }
-  .food-tile:first-child { grid-row: span 2; }
-  .food-tile img {
+  .food-card:first-child { min-height: 246px; }
+  .food-card img {
     width: 100%;
     height: 100%;
-    min-height: inherit;
-    object-fit: cover;
     display: block;
+    object-fit: cover;
   }
-  .food-tile::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 45%, rgba(0, 121, 121, 0.35));
-  }
-  .form-panel {
-    padding: 48px;
+  .auth-panel {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, rgba(255, 240, 228, 0.88), rgba(255, 224, 197, 0.5));
+    padding: clamp(18px, 4vw, 44px);
+    background: rgba(255, 250, 246, 0.84);
+    border-left: 1px solid rgba(0, 121, 121, 0.13);
+    backdrop-filter: blur(18px);
   }
-  .auth-box { width: 100%; max-width: 390px; }
-  .tab-switcher {
+  .auth-box {
+    width: min(100%, 440px);
+  }
+  .mode-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
+    padding: 6px;
+    margin-bottom: 16px;
+    border-radius: 8px;
     background: rgba(0, 121, 121, 0.08);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 5px;
-    margin-bottom: 34px;
+    border: 1px solid var(--line);
   }
   .tab-btn {
-    padding: 11px 12px;
-    border: none;
-    border-radius: 9px;
+    min-height: 44px;
+    border: 0;
+    border-radius: 6px;
     background: transparent;
     color: var(--muted);
-    font-family: 'Poppins', sans-serif;
+    font: inherit;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s, transform 0.1s;
+    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
   }
   .tab-btn.active {
-    background: linear-gradient(90deg, var(--midnight), var(--navy));
-    color: var(--pale-blue);
+    background: var(--white);
+    color: var(--teal);
+    box-shadow: 0 8px 22px rgba(8, 63, 63, 0.12);
   }
-  .tab-btn:active { transform: translateY(1px); }
-  h2 {
-    font-size: 30px;
-    line-height: 1.2;
+  .card {
+    padding: clamp(24px, 4vw, 34px);
+    border-radius: 8px;
+    background: rgba(255, 250, 246, 0.96);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .eyebrow {
+    color: var(--teal);
+    font-size: 12px;
     font-weight: 800;
-    margin-bottom: 8px;
-  }
-  .form-heading {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .form-badge {
-    flex-shrink: 0;
-    padding: 5px 9px;
-    border-radius: 999px;
-    background: var(--card2);
-    color: var(--midnight);
-    font-size: 11px;
-    font-weight: 800;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-top: 4px;
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: clamp(28px, 5vw, 38px);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 10px;
   }
   .subtitle {
     color: var(--muted);
     font-size: 14px;
-    margin-bottom: 28px;
+    line-height: 1.7;
+    margin-bottom: 24px;
   }
-  .form-group { margin-bottom: 18px; }
-  .form-group label {
+  .form-group { margin-bottom: 16px; }
+  label {
     display: block;
-    color: var(--muted);
-    font-size: 12px;
+    color: var(--ink);
+    font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
     margin-bottom: 7px;
   }
-  .form-group input {
+  input {
     width: 100%;
-    min-height: 48px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
+    min-height: 52px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
     background: #fff;
-    color: var(--text);
-    font-family: 'Poppins', sans-serif;
+    color: var(--ink);
+    font: inherit;
     font-size: 15px;
-    padding: 12px 14px;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    padding: 13px 14px;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease;
   }
-  .form-group input:focus {
-    border-color: var(--midnight);
+  input::placeholder { color: #89a5a5; }
+  input:focus {
+    border-color: var(--teal-light);
     box-shadow: 0 0 0 4px rgba(36, 177, 177, 0.14);
   }
   .btn-primary {
     width: 100%;
-    min-height: 50px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(90deg, var(--midnight), var(--navy));
-    color: var(--pale-blue);
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
+    min-height: 52px;
+    margin-top: 4px;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--teal), var(--teal-light));
+    color: var(--cream);
+    font: inherit;
     font-weight: 800;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
-    margin-top: 6px;
+    box-shadow: 0 14px 26px rgba(0, 121, 121, 0.22);
+    transition: transform 0.16s ease, filter 0.16s ease;
   }
-  .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-primary:hover {
+    filter: brightness(1.02);
+    transform: translateY(-1px);
+  }
   .btn-primary:active { transform: translateY(0); }
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .divider::before,
+  .divider::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: var(--line);
+  }
+  .google-btn {
+    min-height: 52px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+    box-shadow: 0 10px 24px rgba(8, 63, 63, 0.08);
+    transition: transform 0.16s ease, border-color 0.16s ease;
+  }
+  .google-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(0, 121, 121, 0.32);
+  }
+  .google-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
   .error-msg {
     display: none;
-    margin-top: 16px;
+    margin-top: 14px;
     padding: 12px 14px;
-    border: 1px solid rgba(159, 61, 61, 0.35);
-    border-radius: 10px;
-    background: rgba(255, 224, 197, 0.8);
-    color: var(--error);
+    border-radius: 8px;
+    border: 1px solid rgba(180, 35, 24, 0.22);
+    background: var(--danger-bg);
+    color: var(--danger);
     font-size: 13px;
     font-weight: 600;
   }
-  .hint {
-    margin-top: 24px;
-    padding: 14px;
-    border-radius: 12px;
-    background: rgba(36, 177, 177, 0.09);
-    border: 1px solid var(--border);
+  .fine-print {
+    margin-top: 14px;
     color: var(--muted);
     font-size: 12px;
-    line-height: 1.8;
+    line-height: 1.6;
   }
-  .hint strong { color: var(--text); }
-  @media (max-width: 820px) {
-    body { align-items: flex-start; }
-    .auth-shell { grid-template-columns: 1fr; min-height: 0; }
-    .brand-panel { padding: 30px; }
-    .brand-panel h1 { font-size: 38px; }
-    .food-grid { grid-template-columns: repeat(3, 1fr); margin-top: 26px; }
-    .food-tile, .food-tile:first-child { grid-row: auto; min-height: 120px; }
-    .form-panel { padding: 32px 24px; }
+  .quick-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    max-width: 620px;
   }
-  @media (max-width: 520px) {
-    body { padding: 0; background: var(--pale-blue); }
-    .auth-shell { border-radius: 0; border: none; }
-    .brand-panel { display: none; }
-    .form-panel { min-height: 100vh; padding: 28px 18px; }
-    h2 { font-size: 26px; }
+  .stat {
+    min-height: 92px;
+    padding: 15px;
+    border-radius: 8px;
+    background: rgba(255, 250, 246, 0.72);
+    border: 1px solid rgba(0, 121, 121, 0.14);
+  }
+  .stat strong {
+    display: block;
+    color: var(--teal);
+    font-size: 22px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat span {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  @media (max-width: 980px) {
+    .page { grid-template-columns: 1fr; }
+    .auth-panel {
+      min-height: auto;
+      border-left: 0;
+      border-top: 1px solid rgba(0, 121, 121, 0.13);
+    }
+    .showcase { min-height: auto; }
+  }
+  @media (max-width: 640px) {
+    body { background-attachment: scroll; }
+    .showcase { padding: 24px 18px; gap: 26px; }
+    .brand { font-size: 18px; }
+    .hero-copy h1 { font-size: 38px; }
+    .hero-copy p { font-size: 15px; }
+    .food-strip { grid-template-columns: 1fr 1fr; }
+    .food-card, .food-card:first-child { min-height: 150px; }
+    .food-card:first-child { grid-column: 1 / -1; }
+    .quick-stats { grid-template-columns: 1fr; }
+    .auth-panel { padding: 18px; }
   }
 </style>
 </head>
 <body>
-<main class="auth-shell">
-  <section class="brand-panel" aria-label="Campus Canteen">
-    <div>
-      <div class="brand-kicker">Online ordering</div>
+<main class="page">
+  <section class="showcase" aria-label="Campus Canteen">
+    <div class="brand">
       <div class="brand-mark">CC</div>
-      <h1>Campus Canteen</h1>
-      <p>Order meals before the rush, track preparation, and pick up without waiting in line.</p>
+      <span>Campus Canteen</span>
     </div>
-    <div class="food-grid" aria-hidden="true">
-      <div class="food-tile"><img src="/menu-items/Chicken%20Biryani.webp" alt=""></div>
-      <div class="food-tile"><img src="/menu-items/Aloo-Paratha.webp" alt=""></div>
-      <div class="food-tile"><img src="/menu-items/Cold-Coffee.webp" alt=""></div>
+
+    <div class="hero-copy">
+      <h1>Order ahead. Pick up fresh.</h1>
+      <p>Sign in to browse today's menu, place your order before the rush, and collect hot meals from the canteen counter without waiting in the long queue.</p>
+    </div>
+
+    <div class="food-strip" aria-hidden="true">
+      <div class="food-card"><img src="/menu-items/Chicken%20Biryani.webp" alt=""></div>
+      <div class="food-card"><img src="/menu-items/Cold-Coffee.webp" alt=""></div>
+      <div class="food-card"><img src="/menu-items/Aloo-Paratha.webp" alt=""></div>
+    </div>
+
+    <div class="quick-stats" aria-hidden="true">
+      <div class="stat">
+        <strong>15+</strong>
+        <span>fresh menu items across meals, snacks, and drinks</span>
+      </div>
+      <div class="stat">
+        <strong>2 min</strong>
+        <span>to build a cart and send it to the counter</span>
+      </div>
+      <div class="stat">
+        <strong>Live</strong>
+        <span>order history for students and admin staff</span>
+      </div>
     </div>
   </section>
 
-  <section class="form-panel">
+  <section class="auth-panel">
     <div class="auth-box">
-      <div class="tab-switcher">
-        <button class="tab-btn active" id="loginTab" onclick="switchTab('login')">Sign In</button>
-        <button class="tab-btn" id="registerTab" onclick="switchTab('register')">Register</button>
+      <div class="mode-tabs" role="tablist" aria-label="Authentication mode">
+        <button class="tab-btn active" id="loginTab" type="button" onclick="switchTab('login')" aria-selected="true">Sign In</button>
+        <button class="tab-btn" id="registerTab" type="button" onclick="switchTab('register')" aria-selected="false">Register</button>
       </div>
 
-      <div id="loginForm">
-        <div class="form-heading">
-          <div>
-            <h2>Welcome Back</h2>
-            <p class="subtitle">Sign in to your canteen account.</p>
-          </div>
-          <span class="form-badge">Student</span>
-        </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="loginEmail" placeholder="you@college.edu">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="Enter your password">
-        </div>
-        <button class="btn-primary" onclick="doLogin()">Sign In</button>
-        <div class="error-msg" id="loginError"></div>
-        <div class="hint">
-          Demo: <strong>student@canteen.com</strong> / student123<br>
-          Admin: <strong>admin@canteen.com</strong> / admin123
-        </div>
-      </div>
+      <div class="card">
+        <div id="loginForm">
+          <p class="eyebrow">Welcome back</p>
+          <h2>Log in to your account</h2>
+          <p class="subtitle">Use your registered email and password, or continue with your Google account.</p>
 
-      <div id="registerForm" style="display:none">
-        <div class="form-heading">
-          <div>
-            <h2>Create Account</h2>
-            <p class="subtitle">Register as a student to start ordering.</p>
+          <div class="form-group">
+            <label for="loginEmail">Email address</label>
+            <input type="email" id="loginEmail" placeholder="you@college.edu" autocomplete="email">
           </div>
-          <span class="form-badge">New</span>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password">
+          </div>
+          <button class="btn-primary" type="button" onclick="doLogin()">Sign In</button>
+          <div class="error-msg" id="loginError"></div>
+
+          <div class="divider">or</div>
+          <a class="google-btn" href="/login/google">
+            <svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.15v2.84C3.96 20.53 7.68 23 12 23z"></path>
+              <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.15C1.42 8.53 1 10.21 1 12s.42 3.47 1.15 4.94l3.69-2.84z"></path>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.68 1 3.96 3.47 2.15 7.06l3.69 2.84C6.71 7.3 9.14 5.38 12 5.38z"></path>
+            </svg>
+            Continue with Google
+          </a>
+          <div class="error-msg" id="socialError"></div>
+
+          <p class="fine-print">Your email must match a registered account, or Google will create a student profile for you.</p>
         </div>
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" id="regName" placeholder="Your full name">
+
+        <div id="registerForm" style="display:none">
+          <p class="eyebrow">New account</p>
+          <h2>Create your profile</h2>
+          <p class="subtitle">Register once, then start ordering from the campus menu.</p>
+
+          <div class="form-group">
+            <label for="regName">Full name</label>
+            <input type="text" id="regName" placeholder="Your full name" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email address</label>
+            <input type="email" id="regEmail" placeholder="you@college.edu" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Password</label>
+            <input type="password" id="regPassword" placeholder="Minimum 6 characters" autocomplete="new-password">
+          </div>
+          <button class="btn-primary" type="button" onclick="doRegister()">Create Account</button>
+          <div class="error-msg" id="registerError"></div>
+          <p class="fine-print">Choose a strong password and keep your canteen account private.</p>
         </div>
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="regEmail" placeholder="you@college.edu">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="regPassword" placeholder="Minimum 6 characters">
-        </div>
-        <button class="btn-primary" onclick="doRegister()">Create Account</button>
-        <div class="error-msg" id="registerError"></div>
       </div>
     </div>
   </section>
@@ -344,14 +430,21 @@
 
 <script>
 function switchTab(tab) {
-  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
-  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
-  document.getElementById('registerTab').classList.toggle('active', tab === 'register');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const loginTab = document.getElementById('loginTab');
+  const registerTab = document.getElementById('registerTab');
+
+  loginForm.style.display = tab === 'login' ? 'block' : 'none';
+  registerForm.style.display = tab === 'register' ? 'block' : 'none';
+  loginTab.classList.toggle('active', tab === 'login');
+  registerTab.classList.toggle('active', tab === 'register');
+  loginTab.setAttribute('aria-selected', tab === 'login');
+  registerTab.setAttribute('aria-selected', tab === 'register');
 }
 
 async function doLogin() {
-  const email = document.getElementById('loginEmail').value;
+  const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
   if (!email || !password) { showError(errEl, 'Please fill in all fields'); return; }
@@ -369,8 +462,8 @@ async function doLogin() {
 }
 
 async function doRegister() {
-  const name = document.getElementById('regName').value;
-  const email = document.getElementById('regEmail').value;
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
   const password = document.getElementById('regPassword').value;
   const errEl = document.getElementById('registerError');
   if (!name || !email || !password) { showError(errEl, 'Please fill in all fields'); return; }
@@ -400,6 +493,12 @@ document.addEventListener('keydown', e => {
     if (active) doLogin(); else doRegister();
   }
 });
+
+const authError = new URLSearchParams(window.location.search).get('error');
+if (authError) {
+  showError(document.getElementById('socialError'), authError);
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
 </script>
 </body>
 </html>
