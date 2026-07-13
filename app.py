@@ -46,14 +46,14 @@ def seed_data():
     mongo.db.users.insert_many([
         {
             'name':       'Admin',
-            'email':      'admin@canteen.com',
+            'email':      'krish.r2106@gmail.com',
             'password':   generate_password_hash('admin123'),
             'role':       'admin',
             'created_at': datetime.utcnow()
         },
         {
             'name':       'Rahul Sharma',
-            'email':      'student@canteen.com',
+            'email':      'student@gmail.com',
             'password':   generate_password_hash('student123'),
             'role':       'student',
             'created_at': datetime.utcnow()

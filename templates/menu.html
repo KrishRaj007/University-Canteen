@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Menu — Campus Canteen</title>
 <link href="https://fonts.googleapis.com/css2?family=Montenegrin+Gothic+One&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    const savedTheme = localStorage.getItem('customerTheme') || 'light';
+    document.documentElement.dataset.theme = savedTheme;
+  })();
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -24,8 +30,35 @@
     --border: rgba(0, 121, 121, 0.18);
     --ink: #083f3f;
     --cream: #fff0e4;
+    --page-bg: linear-gradient(135deg, var(--pale-blue) 0%, var(--soft-blue) 100%);
+    --card-bg: rgba(255, 240, 228, 0.92);
+    --image-bg: rgba(255, 224, 197, 0.55);
+    --input-bg: #fff;
+    --nav-text: rgba(255, 240, 228, 0.82);
   }
-  body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, var(--pale-blue) 0%, var(--soft-blue) 100%); color: var(--text); min-height: 100vh; }
+  [data-theme="dark"] {
+    --midnight: #000000;
+    --navy: #233d4d;
+    --soft-blue: #fe7f2d;
+    --pale-blue: #aecf0f;
+    --saffron: var(--soft-blue);
+    --deep: var(--midnight);
+    --card: var(--navy);
+    --card2: #2e5065;
+    --gold: var(--pale-blue);
+    --mint: var(--soft-blue);
+    --text: #f5f7fb;
+    --muted: #aeb9c4;
+    --border: rgba(174, 207, 15, 0.22);
+    --ink: #f5f7fb;
+    --cream: #233d4d;
+    --page-bg: linear-gradient(135deg, var(--midnight) 0%, var(--navy) 100%);
+    --card-bg: rgba(35, 61, 77, 0.94);
+    --image-bg: rgba(0, 0, 0, 0.18);
+    --input-bg: #172936;
+    --nav-text: rgba(245, 247, 251, 0.82);
+  }
+  body { font-family: 'Poppins', sans-serif; background: var(--page-bg); color: var(--text); min-height: 100vh; }
   /* NAV */
   nav {
     background: linear-gradient(90deg, var(--midnight) 0%, var(--navy) 100%);
@@ -42,11 +75,25 @@
   .nav-brand span { color: var(--pale-blue); }
   .nav-actions { display: flex; align-items: center; gap: 16px; }
   .nav-link {
-    color: rgba(255, 240, 228, 0.82); font-size: 14px; font-weight: 500;
+    color: var(--nav-text); font-size: 14px; font-weight: 500;
     text-decoration: none; padding: 6px 12px; border-radius: 8px;
     transition: all 0.2s;
   }
   .nav-link:hover { color: #fff; background: rgba(255,255,255,0.12); }
+  .theme-toggle {
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-radius: 999px;
+    padding: 7px 12px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 86px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.38); }
   .cart-btn {
     background: linear-gradient(90deg, var(--soft-blue) 0%, var(--pale-blue) 100%); color: var(--midnight); border: none;
     padding: 8px 18px; border-radius: 10px; font-weight: 600;
@@ -107,7 +154,7 @@
     gap: 16px;
   }
   .item-card {
-    background: rgba(255, 240, 228, 0.92);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 14px;
@@ -116,7 +163,7 @@
   }
   .item-img-zone {
     width: 100%; height: 120px;
-    background: rgba(255, 224, 197, 0.55);
+    background: var(--image-bg);
     border-radius: 8px;
     margin-bottom: 14px;
     display: flex; align-items: center; justify-content: center;
@@ -230,7 +277,7 @@
   }
   .cart-sidebar {
     position: fixed; right: 0; top: 0; bottom: 0;
-    width: 400px; background: var(--pale-blue);
+    width: 400px; background: var(--card);
     z-index: 201; padding: 0;
     transform: translateX(100%);
     transition: transform 0.3s ease;
@@ -261,13 +308,13 @@
   .cart-total span:last-child { color: var(--gold); }
   .notes-input {
     width: 100%; padding: 10px 14px;
-    background: #fff; border: 1px solid var(--border);
+    background: var(--input-bg); border: 1px solid var(--border);
     border-radius: 8px; color: var(--text); font-family: 'Poppins', sans-serif;
     font-size: 13px; outline: none; resize: none; margin-bottom: 12px;
   }
   .payment-select {
     width: 100%; padding: 10px 14px;
-    background: #fff; border: 1px solid var(--border);
+    background: var(--input-bg); border: 1px solid var(--border);
     border-radius: 8px; color: var(--text); font-family: 'Poppins', sans-serif;
     font-size: 13px; outline: none; margin-bottom: 16px;
     appearance: none; cursor: pointer;
@@ -295,6 +342,8 @@
   @media (max-width: 600px) {
     .cart-sidebar { width: 100%; }
     nav { padding: 0 16px; }
+    .nav-actions { gap: 8px; }
+    .theme-toggle { min-width: auto; padding: 7px 10px; }
     .hero, .filters, .menu-wrapper { padding-left: 16px; padding-right: 16px; }
     .hero h1 { font-size: 26px; }
   }
@@ -304,6 +353,7 @@
 <nav>
   <div class="nav-brand">Campus <span>Canteen</span></div>
   <div class="nav-actions">
+    <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()">Dark</button>
     <a href="/orders" class="nav-link">My Orders</a>
     <a href="/logout" class="nav-link">Sign Out</a>
     <button class="cart-btn" onclick="openCart()">
@@ -370,6 +420,18 @@ const ITEM_IMAGES = {
   'Gulab Jamun': 'gulab-jamun.webp',
   'Ice Cream': 'Ice Cream.webp'
 };
+
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem('customerTheme', theme);
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+}
+
+function toggleTheme() {
+  const current = document.documentElement.dataset.theme || 'light';
+  setTheme(current === 'dark' ? 'light' : 'dark');
+}
 
 async function loadMenu() {
   const res = await fetch('/api/menu');
@@ -529,6 +591,7 @@ function showToast(msg) {
   setTimeout(() => t.style.display = 'none', 3500);
 }
 
+setTheme(localStorage.getItem('customerTheme') || document.documentElement.dataset.theme || 'light');
 loadMenu();
 </script>
 </body>

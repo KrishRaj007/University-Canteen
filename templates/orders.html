@@ -5,14 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Orders — Campus Canteen</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    const savedTheme = localStorage.getItem('customerTheme') || 'light';
+    document.documentElement.dataset.theme = savedTheme;
+  })();
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
+    --midnight: #007979;
+    --navy: #24b1b1;
+    --soft-blue: #ffe0c5;
+    --pale-blue: #fff0e4;
+
+    --saffron: var(--soft-blue);
+    --deep: var(--midnight);
+    --card: #fff0e4;
+    --card2: #ffe0c5;
+    --gold: #007979;
+    --mint: #24b1b1;
+    --text: #083f3f;
+    --muted: #4f7777;
+    --border: rgba(0, 121, 121, 0.18);
+    --page-bg: linear-gradient(135deg, var(--pale-blue) 0%, var(--soft-blue) 100%);
+    --nav-text: rgba(255, 240, 228, 0.82);
+  }
+  [data-theme="dark"] {
     --midnight: #000000;
     --navy: #233d4d;
     --soft-blue: #fe7f2d;
     --pale-blue: #aecf0f;
-
     --saffron: var(--soft-blue);
     --deep: var(--midnight);
     --card: var(--navy);
@@ -20,10 +43,12 @@
     --gold: var(--pale-blue);
     --mint: var(--soft-blue);
     --text: #f5f7fb;
-    --muted: #8ea0b0;
-    --border: rgba(174, 207, 15, 0.2);
+    --muted: #aeb9c4;
+    --border: rgba(174, 207, 15, 0.22);
+    --page-bg: linear-gradient(135deg, var(--midnight) 0%, var(--navy) 100%);
+    --nav-text: rgba(245, 247, 251, 0.82);
   }
-  body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, var(--midnight) 0%, var(--navy) 100%); color: var(--text); min-height: 100vh; }
+  body { font-family: 'Poppins', sans-serif; background: var(--page-bg); color: var(--text); min-height: 100vh; }
   nav {
     background: linear-gradient(90deg, var(--midnight) 0%, var(--navy) 100%); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px;
@@ -33,10 +58,25 @@
   .nav-brand { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; }
   .nav-brand span { color: var(--soft-blue); }
   .nav-link {
-    color: var(--muted); font-size: 14px; font-weight: 500;
+    color: var(--nav-text); font-size: 14px; font-weight: 500;
     text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 0.2s;
   }
-  .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .nav-link:hover { color: #fff; background: rgba(255,255,255,0.12); }
+  .nav-actions { display:flex; align-items:center; gap:8px; }
+  .theme-toggle {
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-radius: 999px;
+    padding: 7px 12px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    min-width: 86px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.38); }
   .main { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
   h1 { font-family: 'Poppins', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 8px; }
   .subtitle { color: var(--muted); margin-bottom: 32px; }
@@ -87,12 +127,17 @@
   .empty { text-align: center; padding: 80px 20px; color: var(--muted); }
   .empty .icon { font-size: 60px; margin-bottom: 16px; }
   .empty a { color: var(--soft-blue); text-decoration: none; font-weight: 600; }
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .theme-toggle { min-width: auto; padding: 7px 10px; }
+  }
 </style>
 </head>
 <body>
 <nav>
   <div class="nav-brand">Campus <span>Canteen</span></div>
-  <div style="display:flex;gap:8px">
+  <div class="nav-actions">
+    <button class="theme-toggle" id="themeToggle" type="button" onclick="toggleTheme()">Dark</button>
     <a href="/menu" class="nav-link">← Menu</a>
     <a href="/logout" class="nav-link">Sign Out</a>
   </div>
@@ -107,6 +152,18 @@
 <script>
 const STATUS_STEPS = { pending: 0, preparing: 1, ready: 2, completed: 3 };
 const STATUS_LABELS = ['Ordered', 'Preparing', 'Ready', 'Done'];
+
+function setTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  localStorage.setItem('customerTheme', theme);
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = theme === 'dark' ? 'Light' : 'Dark';
+}
+
+function toggleTheme() {
+  const current = document.documentElement.dataset.theme || 'light';
+  setTheme(current === 'dark' ? 'light' : 'dark');
+}
 
 async function loadOrders() {
   const res = await fetch('/api/orders/my');
@@ -158,6 +215,7 @@ function jsArg(value) {
   return JSON.stringify(String(value)).replace(/"/g, '&quot;');
 }
 
+setTheme(localStorage.getItem('customerTheme') || document.documentElement.dataset.theme || 'light');
 loadOrders();
 setInterval(loadOrders, 15000); // auto-refresh
 </script>
