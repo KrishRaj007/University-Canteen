@@ -1,67 +1,104 @@
-# 🍽️ Campus Canteen — Online Food Ordering System
+# Campus Canteen Management System
 
-A full-stack canteen management system built with Flask + HTML/CSS/JS.
+A web application for managing a campus canteen's menu, customer orders, and order progress. Students can browse the menu and place orders, while administrators can manage menu items and update order statuses.
 
 ## Features
 
-### Student Panel
-- 🔐 Register / Login
-- 🍛 Browse menu by category
-- 🛒 Add items to cart, adjust quantities
-- 📝 Place orders with notes & payment method
-- 📋 Track orders with live status updates
+### Student features
 
-### Admin Panel
-- 📊 Live dashboard with stats (orders, revenue, student count)
-- 👨‍🍳 Manage incoming orders (Pending → Preparing → Ready → Completed)
-- 🍽️ Full menu management (Add, Enable/Disable, Delete items)
+- Create an account or sign in with an existing account.
+- Optional Google sign-in when Google OAuth credentials are configured.
+- Browse menu items grouped by category.
+- Add items to a cart and adjust quantities.
+- Add order notes and choose a payment method.
+- View personal order history and order status.
 
-## Quick Start
+### Administrator features
 
-### 1. Install dependencies
-```bash
-pip install -r requirements.txt
-```
+- View dashboard statistics for orders, revenue, and students.
+- View and filter incoming orders.
+- Update order status: pending, preparing, ready, completed, or cancelled.
+- Add, edit, enable or disable, and delete menu items.
 
-### 2. Run the app
-```bash
-python app.py
-```
+## Technology
 
-### 3. Open in browser
-```
-http://localhost:5000
-```
+- Backend: Python, Flask, Flask-Login, Flask-PyMongo
+- Database: MongoDB
+- Authentication: session-based authentication with Werkzeug password hashing
+- Frontend: HTML, CSS, and JavaScript
 
-## Demo Accounts
+## Requirements
 
-| Role    | Email                  | Password   |
-|---------|------------------------|------------|
-| Student | student@canteen.com    | student123 |
-| Admin   | admin@canteen.com      | admin123   |
+- Python 3
+- MongoDB running locally, or a MongoDB connection URI
+
+## Setup
+
+1. Create and activate a virtual environment if desired.
+2. Install the Python dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configure environment variables in a `.env` file. At minimum, set the MongoDB URI:
+
+   ```env
+   MONGO_URI=mongodb://localhost:27017/canteen
+   SECRET_KEY=replace-with-a-secure-secret
+   ```
+
+   To enable Google sign-in, also configure `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
+
+4. Start the application:
+
+   ```bash
+   python app.py
+   ```
+
+5. Open `http://localhost:5000` in a browser.
+
+On its first run with an empty database, the application adds initial users and menu items.
+
+## Default Accounts
+
+| Role | Email | Password |
+| --- | --- | --- |
+| Administrator | krish.r2106@gmail.com | admin123 |
+| Student | student@gmail.com | student123 |
+
+Change these credentials before deploying the application outside a local development environment.
 
 ## Project Structure
 
-```
-canteen/
-├── app.py              # Main Flask app + DB seeding
-├── models.py           # SQLAlchemy models
-├── requirements.txt    # Python dependencies
-├── routes/
-│   ├── auth.py         # Login / Register / Logout
-│   ├── menu.py         # Menu API
-│   ├── orders.py       # Order placement & tracking
-│   └── admin.py        # Admin CRUD + stats
-└── templates/
-    ├── login.html      # Login & Register UI
-    ├── menu.html       # Student menu + cart
-    ├── orders.html     # My Orders page
-    └── admin.html      # Admin dashboard
+```text
+app.py                    Application factory, configuration, and initial data
+extensions.py             Flask extension instances
+models.py                 User model and login loader
+mongo_helpers.py          MongoDB identifier helper
+routes/
+  auth.py                 Registration, login, logout, and Google OAuth
+  menu.py                 Menu page and menu API
+  orders.py               Order placement and order history APIs
+  admin.py                Administration dashboard and management APIs
+templates/                Application pages
+Menu Items/               Menu item images
+instance/                 MongoDB data exports
+requirements.txt          Python dependencies
 ```
 
-## Tech Stack
+## Main Routes
 
-- **Backend**: Python / Flask / SQLAlchemy / Flask-Login
-- **Database**: SQLite (auto-created on first run)
-- **Frontend**: Vanilla HTML + CSS + JavaScript (no frameworks)
-- **Auth**: Session-based with Werkzeug password hashing
+| Route | Purpose |
+| --- | --- |
+| `/login` | Sign in page |
+| `/register` | Student registration |
+| `/menu` | Student menu and cart |
+| `/orders` | Current user's orders |
+| `/admin` | Administrator dashboard |
+
+## Notes
+
+- All menu, user, and order data is stored in MongoDB.
+- The first application startup seeds data only when the `users` collection is empty.
+- Administrative routes require a signed-in user with the `admin` role.
